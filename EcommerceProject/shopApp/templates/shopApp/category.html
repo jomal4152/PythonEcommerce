@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadescription %}
+{% if category %}
+{{category.description|truncatewords:150}}
+{% else %}
+Welcome to Stop & Shop where you can buy different items..
+{% endif %}
+{% endblock %}
+
+{% block title %}
+{% if category %}
+{{category.cname}} - S&S Store
+{% else %}
+See our new collections - S*S Store
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+{% if category %}
+
+<div>
+    <div>
+        <div>
+            <p><a class = "link-dark fs-2" href = "{% url 'shop:allProdCat' %}">Our Product Collections</a></p>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<div>
+    {% if category %}
+    <div class = ''>
+        <img width = "20% align-center" src = "{{category.image.url}}" alt = "{{category.cname}}">
+    </div>
+
+</div>
+<br>
+<div>
+    <h1>{{category.cname}}</h1>
+    <p>{{category.cdescription}}</p>
+</div>
+
+{% else %}
+<div>
+    <div style = "background-color:black;">
+        <img class = "w-80 " src = "{% static 'image/banner.jpg' %}" alt = "our products">
+    </div>
+</div>
+<br>
+
+<div class = "container">
+    <div>
+        <hr>
+        <h1 class = "text-center fs-1"> Our Product Collection </h1>
+        <p class = "p-3">We think, hence we are. With our thoughts we make the world. DaMENSCH is in pursuit of doing
+                         more to redefine
+                         comfort through thoughtful innovation in fashion.
+                         To make you feel comfortable, capable, and at ease, you need fashion that thinks for you.</p>
+        <hr>
+    </div>
+</div>
+{% endif %}
+
+<div class = " d-flex flex-row justify-content-center flex-wrap mx-auto">
+    {% for product in products.object_list %}
+    <div class = "card m-2 text-center " style = "max-width: 25rem;">
+        <a style = "height:80%;" href = "{{product.get_url}}"><img style = "height:100%;object-fit:cover;"
+                                                                   src = "{{product.pimage.url}}" class = "card-img-top"
+                                                                   alt = "{{product.pname}}"></a>
+        <div class = "card-body">
+            <h5 class = "card-title">{{product.pname}}</h5>
+            <p class = "card-text">{{product.price}}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class = "mx-auto">
+    {% if products.paginator.num_pages > 1 %}
+    <hr>
+    <div class = "text-center">
+        {% for pg in products.paginator.page_range %}
+        <a href = "?page={{pg}}"
+           class = "btn btn-light btn-sm {% if products.number == pg %}active{% endif %}">{{pg}}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <hr>
+</div>
+
+{% endblock %}

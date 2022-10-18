@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    We have a variety of products available in different categories.
+{% endblock %}
+{% block title %}
+    Search
+{% endblock %}
+{% block content %}
+<div>
+    <p class = "text-center p-5">
+        You have searched for : <b>"{{query}}"</b>
+    </p>
+</div>
+
+<div class = " d-flex flex-row justify-content-center flex-wrap mx-auto">
+    {% for product in products %}
+    <div class = "card m-2 text-center " style = "max-width: 25rem;">
+        <a style="height:80%;"  href = "{{product.get_url}}"><img style="height:100%;object-fit:cover;"  src = "{{product.pimage.url}}" class = "card-img-top"
+                                             alt = "{{product.pname}}"></a>
+        <div class = "card-body">
+            <h5 class = "card-title">{{product.pname}}</h5>
+            <p class = "card-text">{{product.price}}</p>
+        </div>
+    </div>
+    {% empty %}
+    <div class = "row">
+        <p class = "text-center pt-5rem">No results Found!!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

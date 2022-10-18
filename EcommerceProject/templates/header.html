@@ -1,0 +1,9 @@
+{% load static %}
+
+<header class = "container h-10 d-flex justify-content-evenly">
+        <a href = "{% url 'shop:allProdCat' %}"><img class="h-60" src = "{% static 'image/logo.gif' %}" alt = "Logo"></a>
+    {% include 'nav.html' %}
+</header>
+
+
+

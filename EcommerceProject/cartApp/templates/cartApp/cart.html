@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+This is the cart page.Proceed to review your items and place the order
+{% endblock %}
+{% block title %}
+Cart
+{% endblock %}
+{% block content %}
+{% if not cart_items %}
+<div>
+    <div class = "text-center">
+        <br>
+        <h1 class = "text-center">
+            Your Shopping Cart is empty
+        </h1>
+        <br>
+        <p class = "text-center">
+            <a class = "btn btn-light" href = "{% url 'shop:allProdCat' %}">Continue Shopping</a>
+        </p>
+    </div>
+</div>
+{% else %}
+<div>
+    <div class = "text-center">
+        <br>
+        <h1 class = "text-center ps-2" style = "letter-spacing:0.3rem">
+            Your Shopping Cart
+        </h1>
+        <br>
+    </div>
+</div>
+<div class = "row mx-auto ">
+    <div class = "col-12 col-sm-12 col-md-12 col-lg-8 text-uppercase">
+        <table class = "tabel table ">
+            <thead>
+            <tr>
+                <th colspan = "5">
+                    Your Items
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cart_item in cart_items %}
+            <tr>
+                <td>
+                    <a href = "cart_item.product.get_absolute_url">
+                        <img height = "200rem" width = "200rem" style = "object-fit:cover;" class = "rounded"
+                             src = "{{cart_item.product.pimage.url}}"
+                             alt = "{{cart_item.product.pname}}">
+                    </a>
+                </td>
+                <td class = "pt-5 ">
+                    {{cart_item.product.pname}}
+                    <br>
+                    SKU: {{cart_item.product.id}}
+                    <br>
+                    Price: $ {{cart_item.product.price}}
+                    <br>
+                    Quantity : {{cart_item.quantity}}
+                </td>
+                <td class = "p-5">
+                    $ {{cart_item.sub_total}}
+                </td>
+                {% if cart_item.quantity < cart_item.product.stock %}
+                <td class = "p-5">
+
+                    <a href = "{% url 'cart:addtoCart' cart_item.product.id %}"><i
+                            class = "fa fa-plus m-3 btn btn-light"></i></a>&nbsp;
+                                                                           {{cart_item.quantity}}
+                    <a href = "{% url 'cart:cart_remove' cart_item.product.id %}"><i
+                            class = "fa fa-minus m-3 btn btn-light"></i></a>&nbsp;
+                    <a href = "{% url 'cart:full_remove' cart_item.product.id %}"><i
+                            class = "fa fa-trash m-3 btn btn-light"></i></a>
+                </td>
+                {% else %}
+                <td class = "p-5">
+                    <i class = "fa fa-plus m-3 btn btn-light disabled nav-link"></i>
+                    {{cart_item.quantity}}
+                    <a href = "{% url 'cart:cart_remove' cart_item.product.id %}"><i
+                            class = "fa fa-minus m-3 btn btn-light"></i></a>&nbsp;
+                    <a href = "{% url 'cart:full_remove' cart_item.product.id %}"><i
+                            class = "fa fa-trash m-3 btn btn-light"></i></a>
+                    <br>
+                    <sub class = "text-danger text-lowercase">*Out Of Stock</sub>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class = "col-12 col-sm-12 col-md-12 col-lg-4 text-center text-uppercase">
+        <table class = "table">
+            <thead>
+            <tr>
+                <th>
+                    <a
+                            class = "text-dark" href = "{% url 'shop:allProdCat' %}">Checkout</a>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <p class = "p-5">Please review your shopping cart before proceeding to checkout</p>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class = "text-left">
+                    Your Total is : <strong>{{total}}</strong>
+                </td>
+            </tr>
+            <tr>
+                <td class = ""><a class = "btn btn-secondary btn-block m-5" href = "{% url 'shop:allProdCat' %}">Continue
+                                                                                                                 Shopping</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endif %}
+{% endblock %}

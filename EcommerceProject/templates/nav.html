@@ -1,0 +1,56 @@
+{% load static %}
+<nav class = "navbar navbar-expand-lg bg-light flex-grow-1">
+    <div class = "container">
+        <button class = "navbar-toggler" type = "button" data-bs-toggle = "collapse" data-bs-target = "#navbarText"
+                aria-controls = "navbarText" aria-expanded = "false" aria-label = "Toggle navigation">
+            <span class = "navbar-toggler-icon"></span>
+        </button>
+        <div class = "collapse navbar-collapse" id = "navbarText">
+            <ul class = "navbar-nav me-auto mb-2 mb-lg-0">
+                <li class = "nav-item fs-5">
+                    <a class = "nav-link active" aria-current = "page" href = "{% url 'shop:allProdCat' %}">ALL
+                                                                                                            PRODUCTS</a>
+                </li>
+
+                <li class = "nav-item fs-5 dropdown {% if 'shop' in request.path %} active {% endif %}">
+                    <a class = "nav-link dropdown-toggle" id = "navbarDropdown" href = "#" role = "button"
+                       data-bs-toggle = "dropdown"
+                       aria-expanded = "false">
+                        SHOP
+                    </a>
+                    <ul class = "dropdown-menu" aria-labelledby = "navbarDropdown">
+                        {% for cat in links %}
+                        <li>
+                            <a class = "nav-link" href = "{{cat.get_url}}">{{cat.cname}}</a>
+                            <hr class = "dropdown-divider">
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+            </ul>
+            <form class = "d-flex" role = "search" action = "{% url 'search:searchresult' %}" method = "get">
+                {% csrf_token %}
+                <input name = "q" class = "form-control me-2" type = "search" placeholder = "Search"
+                       aria-label = "Search">
+
+                <button class = "btn btn-outline-success" type = "submit"><i class = "fa fa-search"></i></button>
+            </form>
+            <span class = " m-2 p-3">
+                 <a href = "{% url 'cart:cart_detail' %}">
+                <i class = "fa fa-shopping-cart fa-2x"></i>({{item_count}})
+                 </a>
+            </span>
+            <span class = "m-2 p-2">
+                {% if item_count > 0 %}
+               <i class = "fa-regular fa-heart fa-2x"></i>
+                {% endif %}
+        </span>
+        </div>
+    </div>
+</nav>
+
+
+
+
+

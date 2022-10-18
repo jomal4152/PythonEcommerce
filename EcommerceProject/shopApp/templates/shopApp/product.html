@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadescription %}
+    {{product.description|truncatewords:50}}
+{% endblock %}
+
+{% block title %}
+        {{product.pname}} - S&S Store
+{% endblock %}
+
+{% block content %}
+<hr>
+<div>
+    <div>
+        <p><a href = "{% url 'shop:allProdCat' %}">Home</a> > <a href = "{{product.category.geturl}}">{{product.category}}</a>
+                                                            > {{product.pname}} </p>
+    </div>
+</div>
+<hr>
+<br>
+<div class="product-page row m-5">
+    <div class="col-md-12 col-sm-12 col-lg-6 mx-auto">
+        <div class="">
+            <img style="width:30rem" src = "{{product.pimage.url}}" alt = "{{product.pname}}">
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-lg-6">
+        <div class="">
+            <h1 class="text-uppercase pb-5">{{product.pname}}</h1>
+            <p class="fw-bold fs-4">${{product.price}}</p>
+            <p class="fw-bold">Product Description</p>
+            <p class="text-justify product-desc">{{product.pdescription}}</p>
+            {% if product.stock <= 0 %}
+            <p class="fw-bold">Out Of Stock</p>
+            {% else %}
+            <a class="btn btn-secondary product_button mt-5" href = "{% url 'cart:addtoCart' product.id %}">Add to Cart</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
